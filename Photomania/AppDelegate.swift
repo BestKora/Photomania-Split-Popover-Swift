@@ -104,11 +104,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
         let navigationController =
                   splitViewController.viewControllers[splitViewController.viewControllers.count-1]
                                                                                 as! UINavigationController
+        splitViewController.preferredDisplayMode = .AllVisible
+
                                                     
         navigationController.topViewController!.navigationItem.leftBarButtonItem =
                                                                 splitViewController.displayModeButtonItem()
         navigationController.topViewController!.navigationItem.leftItemsSupplementBackButton = true
-
+       
         splitViewController.delegate = self
         
         // мы получаем managed object контекст, самостоятельно создавая его в классе CoreDataStack
@@ -331,7 +333,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
                                     
             return detailView
     }
-    
+  
     func splitViewController(splitViewController: UISplitViewController,
                       collapseSecondaryViewController secondaryViewController:UIViewController,
                       ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {

@@ -318,16 +318,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
             
             guard let primaryViewControllerAsNav = primaryViewController as? UINavigationController
                 else { return nil }
-            guard let masterView  = primaryViewControllerAsNav.topViewController as? PhotosByPhotographerCDTVC
+            guard let masterView  =
+                            primaryViewControllerAsNav.topViewController as? PhotosByPhotographerCDTVC
                 else { return nil }
-                                    //-------- autoselectedPhoto----
+            //-------- autoselectedPhoto----
             let indexPath:NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
              masterView.tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Top)
-            guard let autoselectedPhoto:Photo  = (masterView.fetchedResultsController?.objectAtIndexPath(indexPath)) as? Photo
+            guard let autoselectedPhoto:Photo =
+                          (masterView.fetchedResultsController?.objectAtIndexPath(indexPath)) as? Photo
                 else { return nil }
-                                    //-------------------------------
+            //-------------------------------
 
-            
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let detailView  =
                          storyboard.instantiateViewControllerWithIdentifier("detailNavigation") as!
@@ -338,8 +339,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
                 else { return nil }
             controller.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
             controller.navigationItem.leftItemsSupplementBackButton = true
+                                    
             controller.imageURL = NSURL(string: autoselectedPhoto.imageURL)
             controller.title = autoselectedPhoto.title
+                                    
             return detailView
     }
   

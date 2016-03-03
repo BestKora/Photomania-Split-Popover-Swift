@@ -14,7 +14,7 @@ import UIKit
 import CoreData
 
 
-class CoreDataTableViewController : UITableViewController, NSFetchedResultsControllerDelegate {
+/*class CoreDataTableViewController : UITableViewController, NSFetchedResultsControllerDelegate {
         let debug = false
     // MARK: - Instance variables
 
@@ -182,4 +182,4 @@ class CoreDataTableViewController : UITableViewController, NSFetchedResultsContr
         }
         self.performFetch()
     }
-}
+} */

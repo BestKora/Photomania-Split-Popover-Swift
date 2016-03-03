@@ -27,6 +27,7 @@
 		6AEEE9EB1A11617100A075DF /* PhotographersCDTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE9EA1A11617100A075DF /* PhotographersCDTVC.swift */; };
 		E4DD44E81BFB5E59005799F0 /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DD44E71BFB5E59005799F0 /* CoreDataTableViewController.swift */; };
 		E4DD44F31BFBADFD005799F0 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DD44F21BFBADFD005799F0 /* CoreDataStack.swift */; };
+		E4DFEEC31C61E97A008277D0 /* CoreDataTableViewControllerN.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DFEEC21C61E97A008277D0 /* CoreDataTableViewControllerN.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		6AEEE9EA1A11617100A075DF /* PhotographersCDTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotographersCDTVC.swift; sourceTree = "<group>"; };
 		E4DD44E71BFB5E59005799F0 /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTableViewController.swift; sourceTree = "<group>"; };
 		E4DD44F21BFBADFD005799F0 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		E4DFEEC21C61E97A008277D0 /* CoreDataTableViewControllerN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTableViewControllerN.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 				6A72841C1A1960A400642E3F /* ImageViewController.swift */,
 				6A08672F1A1C163C00E1FF24 /* URLViewController.swift */,
 				E4DD44E71BFB5E59005799F0 /* CoreDataTableViewController.swift */,
+				E4DFEEC21C61E97A008277D0 /* CoreDataTableViewControllerN.swift */,
 				6AEEE9E31A1160F600A075DF /* CoreDataTableViewController.h */,
 				6AEEE9E41A1160F600A075DF /* CoreDataTableViewController.m */,
 			);
@@ -307,6 +310,7 @@
 				6AEEE9DE1A10203100A075DF /* FlickrFetcher.m in Sources */,
 				6A7284211A1AACE800642E3F /* PhotosCDTVC.swift in Sources */,
 				6A72841D1A1960A400642E3F /* ImageViewController.swift in Sources */,
+				E4DFEEC31C61E97A008277D0 /* CoreDataTableViewControllerN.swift in Sources */,
 				E4DD44F31BFBADFD005799F0 /* CoreDataStack.swift in Sources */,
 				6AEEE9D41A101CED00A075DF /* Photographer.swift in Sources */,
 				6AEEE9AF1A101C4700A075DF /* AppDelegate.swift in Sources */,
@@ -388,7 +392,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -425,7 +429,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -6,7 +6,7 @@
 
 import UIKit
 
-class URLViewController: UIViewController {
+class URLViewController: UIViewController,UIPopoverPresentationControllerDelegate {
 	
 	var url : NSURL? {
 		didSet {
@@ -16,6 +16,13 @@ class URLViewController: UIViewController {
 
 	@IBOutlet weak var urlTextView: UITextView!
 	 
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        modalPresentationStyle = .Popover
+        popoverPresentationController!.delegate = self
+        
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 		self.updateUI()
@@ -37,6 +44,12 @@ class URLViewController: UIViewController {
             }
         }
         set { super.preferredContentSize = newValue }
+    }
+    
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController,
+        traitCollection: UITraitCollection) -> UIModalPresentationStyle {
+            
+            return UIModalPresentationStyle.None
     }
 
 }

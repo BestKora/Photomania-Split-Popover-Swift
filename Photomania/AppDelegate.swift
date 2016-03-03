@@ -1,5 +1,5 @@
 //
-//  AppDelegate.swift
+//  AppDelegate.swift/Users/tatianakornilova/Desktop/Screen Shot 2016-02-29 at 6.21.37 PM.png
 //  Photomania
 //
 //
@@ -100,19 +100,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
         // но вы не забудьте включить ее в ваше приложение!
 		UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
 		
-        let splitViewController = window!.rootViewController as! UISplitViewController
-        let navigationController =
-                  splitViewController.viewControllers[splitViewController.viewControllers.count-1]
-                                                                                as! UINavigationController
-        splitViewController.preferredDisplayMode = .AllVisible
-
-                                                    
-        navigationController.topViewController!.navigationItem.leftBarButtonItem =
-                                                                splitViewController.displayModeButtonItem()
-        navigationController.topViewController!.navigationItem.leftItemsSupplementBackButton = true
        
-        splitViewController.delegate = self
-        
+        if let splitViewController = self.window?.rootViewController as? UISplitViewController,
+            navigationController = splitViewController.viewControllers.last as? UINavigationController {
+                navigationController.topViewController?.navigationItem.leftBarButtonItem
+                    = splitViewController.displayModeButtonItem()
+                navigationController.topViewController?.navigationItem.leftItemsSupplementBackButton = true
+                splitViewController.delegate = self
+                
+             //   splitViewController.preferredDisplayMode = .AllVisible
+                
+                //  splitViewController.preferredPrimaryColumnWidthFraction = 0.5
+                //  splitViewController.maximumPrimaryColumnWidth = 512
+        }
+                                                    
         // мы получаем managed object контекст, самостоятельно создавая его в классе CoreDataStack
         // но в Домашней работе вы должны получить контекст из UIManagedDocument
         // ( то есть вам не нужно использовать этот ManagedObjectContext из класса CoreDataStack,
@@ -316,52 +317,45 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
                                           separateSecondaryViewControllerFromPrimaryViewController
                                    primaryViewController: UIViewController) -> UIViewController? {
             
-            guard let primaryViewControllerAsNav = primaryViewController as? UINavigationController
-                else { return nil }
-            guard let masterView  =
-                            primaryViewControllerAsNav.topViewController as? PhotosByPhotographerCDTVC
-                else { return nil }
-            //-------- autoselectedPhoto----
-            let indexPath:NSIndexPath = NSIndexPath(forRow: 0, inSection: 0)
-             masterView.tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Top)
-            guard let autoselectedPhoto:Photo =
-                          (masterView.fetchedResultsController?.objectAtIndexPath(indexPath)) as? Photo
-                else { return nil }
-            //-------------------------------
-
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let detailView  =
-                         storyboard.instantiateViewControllerWithIdentifier("detailNavigation") as!
-                                                                              UINavigationController
+            guard let masterAsNav = primaryViewController as? UINavigationController,
+                  let masterView = masterAsNav.topViewController as? PhotosByPhotographerCDTVC
+            else { return nil }
             
-            // Обеспечиваем появление обратной кнопки и настройку Модели
-             guard let controller = detailView.visibleViewController as? ImageViewController
+            //-------- Detail----
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            guard let detailAsNav =
+                storyboard.instantiateViewControllerWithIdentifier("detailNavigation")
+                    as? UINavigationController,
+                let controller = detailAsNav.visibleViewController as? ImageViewController
                 else { return nil }
+            
+            // Выделяем первую строку
+            let indexPath = NSIndexPath(forRow: 0, inSection: 0)
+            masterView.tableView.selectRowAtIndexPath(indexPath, animated: true, scrollPosition: .Top)
+            
+            // Обеспечиваем появление обратной кнопки
             controller.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
             controller.navigationItem.leftItemsSupplementBackButton = true
-                                    
-            controller.imageURL = NSURL(string: autoselectedPhoto.imageURL)
-            controller.title = autoselectedPhoto.title
-                                    
-            return detailView
+            
+            //--------Настройка Модели на первое photo ----
+            if let photo = (masterView.fetchedResultsController?.objectAtIndexPath(indexPath)) as? Photo {
+                controller.imageURL = NSURL(string: photo.imageURL)
+                controller.title = photo.title
+            }
+            return detailAsNav
     }
   
     func splitViewController(splitViewController: UISplitViewController,
                       collapseSecondaryViewController secondaryViewController:UIViewController,
                       ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
                         
-            guard let secondaryAsNavController = secondaryViewController as? UINavigationController
-                                                                              else { return false }
-            guard let topAsDetailController = secondaryAsNavController.topViewController as?
-                                                          ImageViewController else { return false }
+                        guard let secondaryAsNav = secondaryViewController as? UINavigationController,
+                            let topAsDetail = secondaryAsNav.topViewController as? ImageViewController
+                            where topAsDetail.imageURL == nil
+                            else {return false}
                         
-            if topAsDetailController.imageURL == nil {
-                
-                // возврат true показывает, что мы управляем отбрасыванием Detail;
-                // не делая ничего, мы его и отбрасывам
-                return true
-            }
-            return false
+                        // Возврат true сигнализирует, что Detail должен быть отброшен
+                        return true
     }
 }
 

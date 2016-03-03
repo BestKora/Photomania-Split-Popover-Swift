@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ImageViewController: UIViewController, UIScrollViewDelegate, UISplitViewControllerDelegate, UIPopoverPresentationControllerDelegate
+class ImageViewController: UIViewController, UIScrollViewDelegate, UISplitViewControllerDelegate
 {
     // наша Model
     // устанавливается извне (publicly)
@@ -157,26 +157,14 @@ class ImageViewController: UIViewController, UIScrollViewDelegate, UISplitViewCo
     
     // MARK: - Navigation
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        //Получаем новый View Controller, используя segue.destinationViewController.
+        // Передаем выбранный объект новому View Controller.
         if segue.identifier == "Show URL" {
             if let urlVC = segue.destinationViewController as? URLViewController {
                 urlVC.url = self.imageURL
-                if let ppc = urlVC.popoverPresentationController {
-                    ppc.delegate = self
-                }
-            }
+              }
         }
         
     }
-
-    // MARK: - UIPopoverPresentationController Delegate
-    
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController, traitCollection: UITraitCollection) -> UIModalPresentationStyle {
-         return .None
-    }
-      
-
 }

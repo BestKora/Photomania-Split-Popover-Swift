@@ -12,15 +12,16 @@ import UIKit
 
 class PhotosCDTVC: CoreDataTableViewController {
 
-	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = self.tableView.dequeueReusableCellWithIdentifier("Photo Cell") 
-		let photo = self.fetchedResultsController!.objectAtIndexPath(indexPath) as? Photo
-		
-		cell?.textLabel!.text = photo?.title
-		cell?.detailTextLabel?.text = photo?.subtitle
-		
-		return cell!
-	}
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        guard let cell = self.tableView.dequeueReusableCellWithIdentifier("Photo Cell"),
+            let photo = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Photo
+            else {return UITableViewCell(style: .Subtitle, reuseIdentifier: "Photo Cell")}
+        
+        cell.textLabel?.text = photo.title
+        cell.detailTextLabel?.text = photo.subtitle == "" ? photo.unique: photo.subtitle
+        
+        return cell
+    }
 	
 	// MARK: - Navigation
 	

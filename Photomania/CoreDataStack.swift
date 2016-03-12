@@ -51,7 +51,8 @@ class CoreDataStack: NSObject {
     let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
 
     let persistentStoreURL = self.applicationDocumentsDirectory.URLByAppendingPathComponent("\(moduleName).sqlite")
-
+    print (persistentStoreURL)
+    
     do {
       try coordinator.addPersistentStoreWithType(NSSQLiteStoreType,
         configuration: nil,
@@ -69,6 +70,7 @@ class CoreDataStack: NSObject {
   lazy var managedObjectContext: NSManagedObjectContext = {
     let managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
     managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator
+    managedObjectContext.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
     return managedObjectContext
   }()
 

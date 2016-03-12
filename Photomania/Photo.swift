@@ -7,43 +7,37 @@
 import Foundation
 import CoreData
 
-class Photo: NSManagedObject {// Flickr
+class Photo: NSManagedObject {
 
       class func photoWithFlickrInfo(dictionary : [String : AnyObject], context : NSManagedObjectContext) -> Photo? {
         
         var photo : Photo?
+        guard var title = dictionary[FLICKR_PHOTO_TITLE] as? String,
+            var subtitle = (dictionary as AnyObject).valueForKeyPath(FLICKR_PHOTO_DESCRIPTION) as? String,
+            let imageURL = FlickrFetcher.URLforPhoto(dictionary,format:FlickrPhotoFormatLarge)?.absoluteString,
+            let unique = dictionary[FLICKR_PHOTO_ID] as? String,
+            let photographer =  dictionary[FLICKR_PHOTO_OWNER] as? String
+            else {return nil}
         
-        let unique = dictionary[FLICKR_PHOTO_ID] as! String
+        // убираем пробелы с обоих концов
+        title = title.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        subtitle = subtitle.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
-        let request = NSFetchRequest(entityName: "Photo")
-        request.predicate = NSPredicate(format: "unique = %@", unique)
+        // специальные требования формирования атрибутов Photo
+        let titleNew =  title == "" ? subtitle: title
         
-        let error = NSErrorPointer()
-        let matches: [AnyObject]?
-        do {
-            matches = try context.executeFetchRequest(request)
-        } catch let error1 as NSError {
-            error.memory = error1
-            matches = nil
-        }
+        guard let entity = NSEntityDescription.entityForName("Photo", inManagedObjectContext: context)
+            else {return nil}
+        photo = Photo(entity: entity, insertIntoManagedObjectContext: context)
+        photo?.unique = unique
+        photo?.title = titleNew == "" ? "Unknown": titleNew
+        photo?.subtitle = subtitle
+        photo?.imageURL = imageURL
         
-        if matches == nil || error != nil || matches?.count > 1 {
-            //handle error
-        }
-        else if matches?.count > 0{
-            photo = matches?.first as? Photo
-        }
-        else {
-            photo = NSEntityDescription.insertNewObjectForEntityForName("Photo", inManagedObjectContext: context) as? Photo
-            photo?.unique = unique
-            photo?.title = (dictionary as AnyObject).valueForKeyPath(FLICKR_PHOTO_TITLE) as! String
-            photo?.subtitle = (dictionary as AnyObject).valueForKeyPath(FLICKR_PHOTO_DESCRIPTION) as! String
-            photo?.imageURL = FlickrFetcher.URLforPhoto(dictionary, format: FlickrPhotoFormatLarge).absoluteString
-            
-            let photographerName = (dictionary as AnyObject).valueForKeyPath(FLICKR_PHOTO_OWNER) as! String
-            photo?.whoTook = Photographer.photographer(photographerName, context: context)!
-        }
+        photo?.whoTook = Photographer.photographer(photographer, context: context)!
+        
         return photo
+
     }
     
     class func loadPhotosFromFlickr(array:[[String : AnyObject]], context: NSManagedObjectContext) {

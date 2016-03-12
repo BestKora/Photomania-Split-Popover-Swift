@@ -23,9 +23,7 @@
 		6AEEE9D81A101D3200A075DF /* Photo+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE9D71A101D3200A075DF /* Photo+CoreDataProperties.swift */; };
 		6AEEE9DE1A10203100A075DF /* FlickrFetcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE9DC1A10203100A075DF /* FlickrFetcher.m */; };
 		6AEEE9E11A1029CA00A075DF /* Photographer+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE9E01A1029CA00A075DF /* Photographer+CoreDataProperties.swift */; };
-		6AEEE9E81A1160F600A075DF /* CoreDataTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE9E41A1160F600A075DF /* CoreDataTableViewController.m */; };
 		6AEEE9EB1A11617100A075DF /* PhotographersCDTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE9EA1A11617100A075DF /* PhotographersCDTVC.swift */; };
-		E4DD44E81BFB5E59005799F0 /* CoreDataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DD44E71BFB5E59005799F0 /* CoreDataTableViewController.swift */; };
 		E4DD44F31BFBADFD005799F0 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DD44F21BFBADFD005799F0 /* CoreDataStack.swift */; };
 		E4DFEEC31C61E97A008277D0 /* CoreDataTableViewControllerN.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4DFEEC21C61E97A008277D0 /* CoreDataTableViewControllerN.swift */; };
 /* End PBXBuildFile section */
@@ -62,12 +60,9 @@
 		6AEEE9DA1A10203100A075DF /* FlickrAPIKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrAPIKey.h; sourceTree = "<group>"; };
 		6AEEE9DB1A10203100A075DF /* FlickrFetcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlickrFetcher.h; sourceTree = "<group>"; };
 		6AEEE9DC1A10203100A075DF /* FlickrFetcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FlickrFetcher.m; sourceTree = "<group>"; };
-		6AEEE9DF1A10210600A075DF /* Photomania-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Photomania-Bridging-Header.h"; sourceTree = "<group>"; };
+		6AEEE9DF1A10210600A075DF /* Photomania-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Photomania-Bridging-Header.h"; path = "Flickr Fetcher/Photomania-Bridging-Header.h"; sourceTree = "<group>"; };
 		6AEEE9E01A1029CA00A075DF /* Photographer+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Photographer+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		6AEEE9E31A1160F600A075DF /* CoreDataTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataTableViewController.h; path = CoreDataTableViewController/CoreDataTableViewController.h; sourceTree = "<group>"; };
-		6AEEE9E41A1160F600A075DF /* CoreDataTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataTableViewController.m; path = CoreDataTableViewController/CoreDataTableViewController.m; sourceTree = "<group>"; };
 		6AEEE9EA1A11617100A075DF /* PhotographersCDTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotographersCDTVC.swift; sourceTree = "<group>"; };
-		E4DD44E71BFB5E59005799F0 /* CoreDataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTableViewController.swift; sourceTree = "<group>"; };
 		E4DD44F21BFBADFD005799F0 /* CoreDataStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		E4DFEEC21C61E97A008277D0 /* CoreDataTableViewControllerN.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataTableViewControllerN.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -98,10 +93,7 @@
 				6A7284201A1AACE800642E3F /* PhotosCDTVC.swift */,
 				6A72841C1A1960A400642E3F /* ImageViewController.swift */,
 				6A08672F1A1C163C00E1FF24 /* URLViewController.swift */,
-				E4DD44E71BFB5E59005799F0 /* CoreDataTableViewController.swift */,
 				E4DFEEC21C61E97A008277D0 /* CoreDataTableViewControllerN.swift */,
-				6AEEE9E31A1160F600A075DF /* CoreDataTableViewController.h */,
-				6AEEE9E41A1160F600A075DF /* CoreDataTableViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -129,6 +121,7 @@
 			children = (
 				6AEEE9AE1A101C4700A075DF /* AppDelegate.swift */,
 				6AEEE9B51A101C4700A075DF /* Main.storyboard */,
+				6AEEE9DF1A10210600A075DF /* Photomania-Bridging-Header.h */,
 				E4DD44F11BFBA70D005799F0 /* Core Data */,
 				6A72841B1A195E3800642E3F /* Controller */,
 				6AEEE9D91A10203100A075DF /* Flickr Fetcher */,
@@ -170,7 +163,6 @@
 				6AEEE9DA1A10203100A075DF /* FlickrAPIKey.h */,
 				6AEEE9DB1A10203100A075DF /* FlickrFetcher.h */,
 				6AEEE9DC1A10203100A075DF /* FlickrFetcher.m */,
-				6AEEE9DF1A10210600A075DF /* Photomania-Bridging-Header.h */,
 			);
 			path = "Flickr Fetcher";
 			sourceTree = "<group>";
@@ -239,7 +231,7 @@
 				LastSwiftMigration = 0710;
 				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0710;
-				ORGANIZATIONNAME = "Afonso Graça";
+				ORGANIZATIONNAME = "Tatiana Kornilova";
 				TargetAttributes = {
 					6AEEE9A81A101C4700A075DF = {
 						CreatedOnToolsVersion = 6.1;
@@ -301,11 +293,9 @@
 			files = (
 				6A9DB3A31A12DE3F00F7B93C /* PhotoDatabaseAvailability.swift in Sources */,
 				6AEEE9D21A101CED00A075DF /* Photo.swift in Sources */,
-				E4DD44E81BFB5E59005799F0 /* CoreDataTableViewController.swift in Sources */,
 				6AEEE9EB1A11617100A075DF /* PhotographersCDTVC.swift in Sources */,
 				6AEEE9D81A101D3200A075DF /* Photo+CoreDataProperties.swift in Sources */,
 				6A0867301A1C163C00E1FF24 /* URLViewController.swift in Sources */,
-				6AEEE9E81A1160F600A075DF /* CoreDataTableViewController.m in Sources */,
 				6A72841F1A19627F00642E3F /* PhotosByPhotographerCDTVC.swift in Sources */,
 				6AEEE9DE1A10203100A075DF /* FlickrFetcher.m in Sources */,
 				6A7284211A1AACE800642E3F /* PhotosCDTVC.swift in Sources */,

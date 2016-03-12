@@ -12,7 +12,8 @@ class PhotographersCDTVC: CoreDataTableViewController {
 	override func awakeFromNib() {
 		NSNotificationCenter.defaultCenter().addObserverForName(PhotoDatabaseAvailabilityNotification, object: nil, queue: nil) { (note : NSNotification) -> Void in
 			self.managedObjectContext = note.userInfo![PhotoDatabaseAvailabilityContext] as? NSManagedObjectContext
-		}
+             self.managedObjectContext!.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+           	}
 	}
 
 	var managedObjectContext : NSManagedObjectContext? {
@@ -21,19 +22,20 @@ class PhotographersCDTVC: CoreDataTableViewController {
 			request.predicate = nil
 			request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true, selector: "localizedStandardCompare:")]
 			
-			
 			self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: nil)
 		}
 	}
 	
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-		let cell = self.tableView.dequeueReusableCellWithIdentifier("Photographer Cell")! as UITableViewCell
-		let photographer = self.fetchedResultsController!.objectAtIndexPath(indexPath) as! Photographer
-		
-		cell.textLabel!.text = photographer.name
-		cell.detailTextLabel?.text = "\(photographer.photos.count) photos"
-		
-		return cell
+        guard let cell = self.tableView.dequeueReusableCellWithIdentifier("Photographer Cell"),
+            let photographer = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Photographer
+            else {return UITableViewCell(style: .Subtitle, reuseIdentifier: "Photographer Cell")}
+        
+        cell.textLabel?.text = photographer.name
+        cell.detailTextLabel?.text = "\(photographer.photos.count) photos"
+        
+        return cell
+
 	}
 	
 	

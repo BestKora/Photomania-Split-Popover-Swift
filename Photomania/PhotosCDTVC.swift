@@ -8,13 +8,11 @@
 
 import UIKit
 
-
-
 class PhotosCDTVC: CoreDataTableViewController {
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         guard let cell = self.tableView.dequeueReusableCellWithIdentifier("Photo Cell"),
-            let photo = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Photo
+              let photo = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Photo
             else {return UITableViewCell(style: .Subtitle, reuseIdentifier: "Photo Cell")}
         
         cell.textLabel?.text = photo.title
@@ -29,7 +27,8 @@ class PhotosCDTVC: CoreDataTableViewController {
                                forSegue segue : String?,
                       fromIndexPath indexPath : NSIndexPath) {
         
-        let photo = self.fetchedResultsController!.objectAtIndexPath(indexPath) as! Photo
+        guard let photo = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Photo
+            else { return }
         var ivc = viewController
                         
         if let vc = viewController as? UINavigationController {
@@ -47,23 +46,11 @@ class PhotosCDTVC: CoreDataTableViewController {
 
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		
-		var indexPath : NSIndexPath? = nil
-		if let cell = sender as? UITableViewCell {
-			indexPath = self.tableView.indexPathForCell(cell)
-		}
-		self.prepareViewController(segue.destinationViewController,
+        guard let cell = sender as? UITableViewCell,
+            let indexPath = self.tableView.indexPathForCell(cell)
+            else {return}
+				self.prepareViewController(segue.destinationViewController,
                                          forSegue: segue.identifier,
-                                    fromIndexPath: indexPath!)
+                                    fromIndexPath: indexPath)
 	}
-	
-/*	override func tableView(tableView: UITableView, didDeselectRowAtIndexPath indexPath: NSIndexPath) {
-		
-		var detailvc: AnyObject? = self.splitViewController?.viewControllers.last
-		if let navigation = detailvc as? UINavigationController {
-			detailvc = navigation.viewControllers.first
-			
-			self.prepareViewController(detailvc, forSegue: "", fromIndexPath: indexPath)
-		}
-	}
-*/
 }

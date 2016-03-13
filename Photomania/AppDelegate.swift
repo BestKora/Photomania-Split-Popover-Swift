@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
 
 	// MARK: - Types
 	var window: UIWindow?
-    lazy var coreDataStack = CoreDataStack()
+    var coreDataStack = CoreDataStack()
 
 	var flickrDownloadBackgroundURLSessionCompletionHandler : (() -> Void)?
    
@@ -54,36 +54,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
 			return FLICKR_DOWNLOAD_SESSION
 		}
 	}
-	var flickrForegroundFetchTimer : NSTimer?
-	var photoDatabaseContext : NSManagedObjectContext? = nil {
-		didSet {
+    
+    var flickrForegroundFetchTimer : NSTimer?
+    var photoDatabaseContext : NSManagedObjectContext?  {
+        didSet {
             // мы можем что-то делать с базой данных, если контекст базы данных фотографий доступен
             // мы запускаем foreground таймер NSTimer, чтобы мы могли делать выборку
             // каждый раз в определенное время в активном режиме (in the foreground)
-            // мы посылаем уведомление (notification), давая знать другим, что контекст доступен
-			
+            
             // каждый раз при изменении контекста, мы заново стартуем наш таймер,
             // убивая (invalidate) текущий таймер
             // (к сожалению, мы не получили эту строку кода в лекции!)
-			self.flickrForegroundFetchTimer?.invalidate()
-			self.flickrForegroundFetchTimer = nil
-			
-			var userInfo : [String : AnyObject]? = nil
-			if let context = self.photoDatabaseContext {
-			
-                 // этот таймер будет запускаться только когда мы в активном режиме (in the foreground)
-				self.flickrForegroundFetchTimer = NSTimer.scheduledTimerWithTimeInterval(FOREGROUND_FLICKR_FETCH_INTERVAL, target: self, selector: "startFlickrFetch:", userInfo: nil, repeats: true)
-				
-				userInfo = [PhotoDatabaseAvailabilityContext : context]
-			}
-			
-            // позволяем всем, кто интересуется, узнать, что этот контекст доступен
-            // Это происходит очень рано, при старте нашего приложения
-            // Возможно, что НЕ ИМЕЕТ СМЫСЛА слушать эту радиостанцию в тех View Controller, на которые, например,
-            // "переезжают" (segued to) (но это вполне естественно, потому что View Controller на которые "переезжают",
-            // предположительно "подготавливаются" путем передачи им контекста для работы)
-			NSNotificationCenter.defaultCenter().postNotificationName(PhotoDatabaseAvailabilityNotification, object: self, userInfo: userInfo)
-		}
+            self.flickrForegroundFetchTimer?.invalidate()
+            self.flickrForegroundFetchTimer = nil
+            
+            // этот таймер будет запускаться только когда мы в активном режиме (in the foreground)
+            self.flickrForegroundFetchTimer = NSTimer.scheduledTimerWithTimeInterval(FOREGROUND_FLICKR_FETCH_INTERVAL, target: self, selector: "startFlickrFetch:", userInfo: nil, repeats: true)
+            
+        }
 	}
 	
 	// MARK: - UIApplicationDelegate
@@ -100,25 +88,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
         // но вы не забудьте включить ее в ваше приложение!
 		UIApplication.sharedApplication().setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
 		
-       
-        if let splitViewController = self.window?.rootViewController as? UISplitViewController,
-            navigationController = splitViewController.viewControllers.last as? UINavigationController {
-                navigationController.topViewController?.navigationItem.leftBarButtonItem
-                    = splitViewController.displayModeButtonItem()
-                navigationController.topViewController?.navigationItem.leftItemsSupplementBackButton = true
-                splitViewController.delegate = self
-                
-             //   splitViewController.preferredDisplayMode = .AllVisible
-                
-                //  splitViewController.preferredPrimaryColumnWidthFraction = 0.5
-                //  splitViewController.maximumPrimaryColumnWidth = 512
+        if let split = self.window?.rootViewController as? UISplitViewController,
+            navigationMaster = split.viewControllers.first as? UINavigationController,
+            topMaster = navigationMaster.topViewController
+        {
+            if topMaster.respondsToSelector("setCoreDataStack:") {
+                topMaster.performSelector("setCoreDataStack:", withObject: coreDataStack)
+            }
+        }
+                                                    
+        if let split = self.window?.rootViewController as? UISplitViewController,
+            navigationDetail = split.viewControllers.last as? UINavigationController {
+                navigationDetail.topViewController?.navigationItem.leftBarButtonItem = split.displayModeButtonItem()
+                navigationDetail.topViewController?.navigationItem.leftItemsSupplementBackButton = true
+                split.delegate = self
+                split.preferredDisplayMode = .AllVisible
+
+                //  split.preferredPrimaryColumnWidthFraction = 0.5
+                //  split.maximumPrimaryColumnWidth = 512
+
         }
                                                     
         // мы получаем managed object контекст, самостоятельно создавая его в классе CoreDataStack
-        // но в Домашней работе вы должны получить контекст из UIManagedDocument
-        // ( то есть вам не нужно использовать этот ManagedObjectContext из класса CoreDataStack,
-        // или используйте этот подход)
-  
         self.photoDatabaseContext = coreDataStack.managedObjectContext
 		
         // мы запускаем выборку из Flickr каждый раз при старте (почему нет?)
@@ -241,10 +232,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
 			let photos = self.flickrPhotosAtURL(localFile)
 			context.performBlock(){
 				Photo.loadPhotosFromFlickr(photos as! [[String : AnyObject]], context: context)
-				do {
-					try context.save()
-				} catch _ {
-				}
+                self.coreDataStack.saveMainContext()
 				if let done = whenDone { done()}
 			}
 		}
@@ -349,9 +337,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
                       collapseSecondaryViewController secondaryViewController:UIViewController,
                       ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
                         
-                        guard let secondaryAsNav = secondaryViewController as? UINavigationController,
-                            let topAsDetail = secondaryAsNav.topViewController as? ImageViewController
-                            where topAsDetail.imageURL == nil
+                        guard let navigationDetail = secondaryViewController as? UINavigationController,
+                              let topDetail = navigationDetail.topViewController as? ImageViewController
+                            where topDetail.imageURL == nil
                             else {return false}
                         
                         // Возврат true сигнализирует, что Detail должен быть отброшен

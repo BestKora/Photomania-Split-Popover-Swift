@@ -11,7 +11,6 @@
 		6A72841D1A1960A400642E3F /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A72841C1A1960A400642E3F /* ImageViewController.swift */; };
 		6A72841F1A19627F00642E3F /* PhotosByPhotographerCDTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A72841E1A19627F00642E3F /* PhotosByPhotographerCDTVC.swift */; };
 		6A7284211A1AACE800642E3F /* PhotosCDTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7284201A1AACE800642E3F /* PhotosCDTVC.swift */; };
-		6A9DB3A31A12DE3F00F7B93C /* PhotoDatabaseAvailability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A9DB3A21A12DE3F00F7B93C /* PhotoDatabaseAvailability.swift */; };
 		6AEEE9AF1A101C4700A075DF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE9AE1A101C4700A075DF /* AppDelegate.swift */; };
 		6AEEE9B21A101C4700A075DF /* Photomania.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE9B01A101C4700A075DF /* Photomania.xcdatamodeld */; };
 		6AEEE9B71A101C4700A075DF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6AEEE9B51A101C4700A075DF /* Main.storyboard */; settings = {ASSET_TAGS = (Photographers, ); }; };
@@ -43,7 +42,6 @@
 		6A72841C1A1960A400642E3F /* ImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		6A72841E1A19627F00642E3F /* PhotosByPhotographerCDTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosByPhotographerCDTVC.swift; sourceTree = "<group>"; };
 		6A7284201A1AACE800642E3F /* PhotosCDTVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosCDTVC.swift; sourceTree = "<group>"; };
-		6A9DB3A21A12DE3F00F7B93C /* PhotoDatabaseAvailability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoDatabaseAvailability.swift; sourceTree = "<group>"; };
 		6AEEE9A91A101C4700A075DF /* Photomania.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Photomania.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AEEE9AD1A101C4700A075DF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6AEEE9AE1A101C4700A075DF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -170,7 +168,6 @@
 		E4DD44F11BFBA70D005799F0 /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				6A9DB3A21A12DE3F00F7B93C /* PhotoDatabaseAvailability.swift */,
 				6AEEE9D11A101CED00A075DF /* Photo.swift */,
 				6AEEE9D71A101D3200A075DF /* Photo+CoreDataProperties.swift */,
 				6AEEE9D31A101CED00A075DF /* Photographer.swift */,
@@ -291,7 +288,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6A9DB3A31A12DE3F00F7B93C /* PhotoDatabaseAvailability.swift in Sources */,
 				6AEEE9D21A101CED00A075DF /* Photo.swift in Sources */,
 				6AEEE9EB1A11617100A075DF /* PhotographersCDTVC.swift in Sources */,
 				6AEEE9D81A101D3200A075DF /* Photo+CoreDataProperties.swift in Sources */,

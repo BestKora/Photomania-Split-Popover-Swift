@@ -8,7 +8,6 @@
 import UIKit
 import CoreData
 
-
 class PhotosByPhotographerCDTVC: PhotosCDTVC  {
 
 	var photographer : Photographer?{

@@ -47,7 +47,7 @@ class PhotosCDTVC: CoreDataTableViewController {
 	override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 		
         guard let cell = sender as? UITableViewCell,
-            let indexPath = self.tableView.indexPathForCell(cell)
+              let indexPath = self.tableView.indexPathForCell(cell)
             else {return}
 				self.prepareViewController(segue.destinationViewController,
                                          forSegue: segue.identifier,

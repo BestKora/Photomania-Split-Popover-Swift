@@ -9,9 +9,7 @@ import CoreData
 
 class Photo: NSManagedObject {
 
-      class func photoWithFlickrInfo(dictionary : [String : AnyObject], context : NSManagedObjectContext) -> Photo? {
-        
-        var photo : Photo?
+    convenience init?(dictionary : [String : AnyObject], context: NSManagedObjectContext) {
         guard var title = dictionary[FLICKR_PHOTO_TITLE] as? String,
             var subtitle = (dictionary as AnyObject).valueForKeyPath(FLICKR_PHOTO_DESCRIPTION) as? String,
             let imageURL = FlickrFetcher.URLforPhoto(dictionary,format:FlickrPhotoFormatLarge)?.absoluteString,
@@ -28,22 +26,11 @@ class Photo: NSManagedObject {
         
         guard let entity = NSEntityDescription.entityForName("Photo", inManagedObjectContext: context)
             else {return nil}
-        photo = Photo(entity: entity, insertIntoManagedObjectContext: context)
-        photo?.unique = unique
-        photo?.title = titleNew == "" ? "Unknown": titleNew
-        photo?.subtitle = subtitle
-        photo?.imageURL = imageURL
-        
-        photo?.whoTook = Photographer.photographer(photographer, context: context)!
-        
-        return photo
-
+        self.init(entity: entity, insertIntoManagedObjectContext: context)
+        self.unique = unique
+        self.title = titleNew == "" ? "Unknown": titleNew
+        self.subtitle = subtitle
+        self.imageURL = imageURL
+        self.whoTook = Photographer(name: photographer, context: context)
     }
-    
-    class func loadPhotosFromFlickr(array:[[String : AnyObject]], context: NSManagedObjectContext) {
-        for currentPhoto in array {
-            self.photoWithFlickrInfo(currentPhoto, context: context)
-        }
-    }
-
 }

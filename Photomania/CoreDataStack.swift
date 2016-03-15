@@ -55,10 +55,10 @@ class CoreDataStack: NSObject {
     
     do {
       try coordinator.addPersistentStoreWithType(NSSQLiteStoreType,
-        configuration: nil,
-        URL: persistentStoreURL,
-        options: [NSMigratePersistentStoresAutomaticallyOption: true,
-          NSInferMappingModelAutomaticallyOption: true])
+            configuration: nil,
+            URL: persistentStoreURL,
+            options: [NSMigratePersistentStoresAutomaticallyOption: true,
+              NSInferMappingModelAutomaticallyOption: true])
     } catch  let error as NSError {
       print("Error: \(error.localizedDescription)")
       fatalError("Persistent store error! \(error)")

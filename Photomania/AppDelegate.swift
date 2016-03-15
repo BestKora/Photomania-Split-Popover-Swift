@@ -102,7 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
                 navigationDetail.topViewController?.navigationItem.leftBarButtonItem = split.displayModeButtonItem()
                 navigationDetail.topViewController?.navigationItem.leftItemsSupplementBackButton = true
                 split.delegate = self
-                split.preferredDisplayMode = .AllVisible
+               // split.preferredDisplayMode = .AllVisible
 
                 //  split.preferredPrimaryColumnWidthFraction = 0.5
                 //  split.maximumPrimaryColumnWidth = 512
@@ -215,31 +215,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
 	}
 	
 	// стандартный код для "получаем информацию о фотографиях с Flickr URL"
-	func flickrPhotosAtURL(url : NSURL) -> [AnyObject]? {
+	func flickrPhotosAtURL(url : NSURL) -> [[String : AnyObject]]? {
 		if let flickrJSONData = NSData(contentsOfURL: url) {
 			let flickrPropertyList : AnyObject? = try? NSJSONSerialization.JSONObjectWithData(flickrJSONData, options: [])
-			return flickrPropertyList!.valueForKeyPath(FLICKR_RESULTS_PHOTOS) as? [AnyObject]
+			return flickrPropertyList!.valueForKeyPath(FLICKR_RESULTS_PHOTOS) as? [[String : AnyObject]]
 		}
 		return nil
 	}
 	
     // получаем словари с Flickr фотографиями из url и размещаем в Core Data
     // после лекции это переместили сюда, чтобы дать вам пример, как декларировать метод, аргументом которого является блок,
-    // и потому что этот метод вызываеися дважды как в части обработчика делегата background session,
+    // и потому что этот метод вызывается дважды как в части обработчика делегата background session,
     // так и в случае, когда происходит background fetch
-	func loadFlickrPhotosFromLocalURL(localFile : NSURL, intoContext managedContext : NSManagedObjectContext?, whenDone : (()->())?) {
-		if let context = managedContext {
-			let photos = self.flickrPhotosAtURL(localFile)
-			context.performBlock(){
-				Photo.loadPhotosFromFlickr(photos as! [[String : AnyObject]], context: context)
+    func loadFlickrPhotosFromLocalURL(localFile : NSURL, intoContext managedContext : NSManagedObjectContext?, whenDone : (()->())?) {
+        if let context = managedContext,
+            let photos = self.flickrPhotosAtURL(localFile)
+        {
+            context.performBlock(){
+                
+                // Записываем в Core Data
+                _ = photos.flatMap({ (dict) -> Photo? in
+                    return Photo.init(dictionary: dict, context: self.coreDataStack.managedObjectContext)
+                })
                 self.coreDataStack.saveMainContext()
-				if let done = whenDone { done()}
-			}
-		}
-		else {
-			if let done = whenDone { done()}
-		}
-	}
+                if let done = whenDone { done()}
+            }
+        }
+        else {
+            if let done = whenDone { done()}
+        }
+    }
 	
 	//MARK: - NSURLSessionDownloadDelegate
 	

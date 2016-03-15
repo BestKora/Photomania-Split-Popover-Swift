@@ -102,7 +102,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
                 navigationDetail.topViewController?.navigationItem.leftBarButtonItem = split.displayModeButtonItem()
                 navigationDetail.topViewController?.navigationItem.leftItemsSupplementBackButton = true
                 split.delegate = self
-               // split.preferredDisplayMode = .AllVisible
+                split.preferredDisplayMode = .AllVisible
 
                 //  split.preferredPrimaryColumnWidthFraction = 0.5
                 //  split.maximumPrimaryColumnWidth = 512

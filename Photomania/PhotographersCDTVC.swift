@@ -19,12 +19,12 @@ class PhotographersCDTVC: CoreDataTableViewController {
     }
 
 	override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        guard let cell = self.tableView.dequeueReusableCellWithIdentifier("Photographer Cell"),
-              let photographer = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Photographer
-            else {return UITableViewCell(style: .Subtitle, reuseIdentifier: "Photographer Cell")}
+
+        let cell = tableView.dequeueReusableCellWithIdentifier("Photographer Cell", forIndexPath: indexPath)
+        let photographer = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Photographer
         
-        cell.textLabel?.text = photographer.name
-        cell.detailTextLabel?.text = "\(photographer.photos.count) photos"
+        cell.textLabel?.text = photographer?.name
+        cell.detailTextLabel?.text = "\(photographer?.photos.count) photos"
         
         return cell
 

@@ -12,7 +12,7 @@ class PhotographersCDTVC: CoreDataTableViewController {
         didSet {
             let request = NSFetchRequest(entityName: "Photographer")
             request.predicate = nil
-            request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true, selector: "localizedStandardCompare:")]
+            request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true, selector: #selector(NSString.localizedStandardCompare(_:)))]
             
             self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: coreDataStack.managedObjectContext, sectionNameKeyPath: nil, cacheName: nil)
         }
@@ -24,7 +24,7 @@ class PhotographersCDTVC: CoreDataTableViewController {
         let photographer = self.fetchedResultsController?.objectAtIndexPath(indexPath) as? Photographer
         
         cell.textLabel?.text = photographer?.name
-        cell.detailTextLabel?.text = "\(photographer?.photos.count) photos"
+        cell.detailTextLabel?.text = "\(photographer?.photos.count ?? 0) photos"
         
         return cell
 

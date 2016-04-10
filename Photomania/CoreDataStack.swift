@@ -39,34 +39,39 @@ class CoreDataStack: NSObject {
   }
 
   lazy var managedObjectModel: NSManagedObjectModel = {
-    let modelURL = NSBundle.mainBundle().URLForResource(moduleName, withExtension: "momd")!
-    return NSManagedObjectModel(contentsOfURL: modelURL)!
+     guard let modelURL = NSBundle.mainBundle().URLForResource(moduleName, withExtension: "momd") else {
+        fatalError("Error loading model from bundle")
+    }
+    guard let mom = NSManagedObjectModel(contentsOfURL: modelURL) else {
+        fatalError("Error initializing mom from: \(modelURL)")
+    }
+    return mom
   }()
 
   lazy var applicationDocumentsDirectory: NSURL = {
-    return NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).last!
+    let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
+    return urls[urls.count-1]
+
   }()
 
-  lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
-    let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
-
-    let persistentStoreURL = self.applicationDocumentsDirectory.URLByAppendingPathComponent("\(moduleName).sqlite")
-    print (persistentStoreURL)
+    lazy var persistentStoreCoordinator: NSPersistentStoreCoordinator = {
+        let coordinator = NSPersistentStoreCoordinator(managedObjectModel: self.managedObjectModel)
+            let persistentStoreURL = self.applicationDocumentsDirectory.URLByAppendingPathComponent("\(moduleName).sqlite")
+            print (persistentStoreURL)
+            
+            do {
+                try coordinator.addPersistentStoreWithType(NSSQLiteStoreType,
+                    configuration: nil,
+                    URL: persistentStoreURL,
+                    options: [NSMigratePersistentStoresAutomaticallyOption: true,
+                        NSInferMappingModelAutomaticallyOption: true])
+            } catch  let error as NSError {
+                print("Error: \(error.localizedDescription)")
+                fatalError("Persistent store error! \(error)")
+            }
+        return coordinator
+    }()
     
-    do {
-      try coordinator.addPersistentStoreWithType(NSSQLiteStoreType,
-            configuration: nil,
-            URL: persistentStoreURL,
-            options: [NSMigratePersistentStoresAutomaticallyOption: true,
-              NSInferMappingModelAutomaticallyOption: true])
-    } catch  let error as NSError {
-      print("Error: \(error.localizedDescription)")
-      fatalError("Persistent store error! \(error)")
-    }
-
-    return coordinator
-  }()
-
   lazy var managedObjectContext: NSManagedObjectContext = {
     let managedObjectContext = NSManagedObjectContext(concurrencyType: .MainQueueConcurrencyType)
     managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator

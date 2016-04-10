@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
 
 	// MARK: - Types
 	var window: UIWindow?
-    var coreDataStack = CoreDataStack()
+    lazy var coreDataStack = CoreDataStack()
 
 	var flickrDownloadBackgroundURLSessionCompletionHandler : (() -> Void)?
    
@@ -69,7 +69,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
             self.flickrForegroundFetchTimer = nil
             
             // этот таймер будет запускаться только когда мы в активном режиме (in the foreground)
-            self.flickrForegroundFetchTimer = NSTimer.scheduledTimerWithTimeInterval(FOREGROUND_FLICKR_FETCH_INTERVAL, target: self, selector: "startFlickrFetch:", userInfo: nil, repeats: true)
+            self.flickrForegroundFetchTimer = NSTimer.scheduledTimerWithTimeInterval(FOREGROUND_FLICKR_FETCH_INTERVAL, target: self, selector: .startFlickrFetch, userInfo: nil, repeats: true)
             
         }
 	}
@@ -92,8 +92,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
             navigationMaster = split.viewControllers.first as? UINavigationController,
             topMaster = navigationMaster.topViewController
         {
-            if topMaster.respondsToSelector("setCoreDataStack:") {
-                topMaster.performSelector("setCoreDataStack:", withObject: coreDataStack)
+            if topMaster.respondsToSelector(Selector("setCoreDataStack:")) {
+                topMaster.performSelector(Selector("setCoreDataStack:"), withObject: coreDataStack)
             }
         }
                                                     
@@ -350,5 +350,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
                         // Возврат true сигнализирует, что Detail должен быть отброшен
                         return true
     }
+    
+    func applicationWillTerminate(application: UIApplication) {
+        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        // Saves changes in the application's managed object context before the application terminates.
+        coreDataStack.saveMainContext()
+    }
 }
 
+private extension Selector {
+    static let startFlickrFetch =
+        #selector(AppDelegate.startFlickrFetch(_:))
+}

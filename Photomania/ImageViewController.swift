@@ -163,7 +163,7 @@ class ImageViewController: UIViewController, UIScrollViewDelegate, UISplitViewCo
         if segue.identifier == "Show URL" {
             if let urlVC = segue.destinationViewController as? URLViewController {
                 urlVC.url = self.imageURL
-              }
+            }
         }
         
     }

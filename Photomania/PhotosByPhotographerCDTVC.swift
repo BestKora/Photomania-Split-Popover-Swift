@@ -18,13 +18,18 @@ class PhotosByPhotographerCDTVC: PhotosCDTVC  {
 	}
 	
 	func setupFetchedResultsController() {
-		
 		if let context = self.photographer?.managedObjectContext {
+            
 			let request = NSFetchRequest(entityName: "Photo")
 			request.predicate = NSPredicate(format: "whoTook = %@", self.photographer!)
-			request.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true, selector: "localizedStandardCompare:")]
+			request.sortDescriptors = [NSSortDescriptor(key: "title",
+                                                  ascending: true,
+                selector: #selector(NSString.localizedStandardCompare(_:)))]
 			
-			self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+			self.fetchedResultsController = NSFetchedResultsController(fetchRequest: request,
+                                                               managedObjectContext: context,
+                                                                 sectionNameKeyPath: nil,
+                                                                          cacheName: nil)
 		}
 		else {
 			self.fetchedResultsController = nil
